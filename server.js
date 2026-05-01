@@ -27,11 +27,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // MongoDB connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/raakhscrn';
+const MONGODB_URI = process.env.MONGO_URI;
+
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB:', err));
-
 // --- SCHEMAS ---
 const orderItemSchema = new mongoose.Schema({
   name: String,
@@ -148,9 +148,9 @@ app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (re
   try {
     const { name, description, price, isComingSoon, sizes, colors } = req.body;
     if (!req.files || req.files.length === 0) return res.status(400).json({ success: false, message: 'At least one image is required' });
-    
+
     const imageUrls = req.files.map(f => `/uploads/${f.filename}`);
-    
+
     const sizesArr = sizes ? sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
     const colorsArr = colors ? colors.split(',').map(c => c.trim()).filter(Boolean) : [];
 
@@ -163,7 +163,7 @@ app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (re
       sizes: sizesArr,
       colors: colorsArr
     });
-    
+
     await product.save();
     res.json({ success: true, product });
   } catch (error) {
