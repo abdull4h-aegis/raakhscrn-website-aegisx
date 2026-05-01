@@ -27,11 +27,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // MongoDB connection
-const MONGODB_URI = process.env.MONGO_URI;
+const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
 
-mongoose.connect(MONGODB_URI)
+if (!MONGODB_URI) {
+  console.error('Error: MongoDB connection string (MONGODB_URI or MONGO_URI) is not defined in environment variables.');
+}
+
+mongoose.connect(MONGODB_URI, {
+  serverSelectionTimeoutMS: 5000 // Timeout after 5s instead of 30s
+})
   .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Failed to connect to MongoDB:', err));
+  .catch(err => {
+    console.error('Failed to connect to MongoDB:', err);
+    process.exit(1); // Exit if cannot connect to DB in production
+  });
 // --- SCHEMAS ---
 const orderItemSchema = new mongoose.Schema({
   name: String,
