@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAAKHSCRN</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --off-white: #e8e4de;
+    --mid: #888;
+    --accent: #c8b89a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    mix-blend-mode: difference;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 6px;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; }
+
+  section { position: relative; z-index: 1; }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-bg-left {
+    background: var(--black);
+  }
+
+  .hero-bg-right {
+    background: var(--white);
+  }
+
+  .hero-big-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 16vw, 200px);
+    line-height: 0.88;
+    letter-spacing: -2px;
+    position: relative;
+    z-index: 2;
+    mix-blend-mode: difference;
+    color: var(--white);
+    user-select: none;
+  }
+
+  .hero-big-text span {
+    display: block;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 32px;
+  }
+
+  .hero-tagline {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    max-width: 280px;
+    line-height: 1.8;
+    mix-blend-mode: difference;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    font-family: 'Space Mono', monospace;
+    transition: all 0.3s;
+    mix-blend-mode: difference;
+  }
+
+  .hero-cta:hover {
+    background: var(--black);
+    color: var(--white);
+    outline: 1px solid var(--white);
+  }
+
+  .marquee-section {
+    background: var(--white);
+    color: var(--black);
+    padding: 14px 0;
+    overflow: hidden;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 18s linear infinite;
+  }
+
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 5px;
+    padding: 0 40px;
+    color: var(--black);
+    opacity: 0.4;
+  }
+
+  .marquee-item.bold { opacity: 1; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .products {
+    padding: 100px 40px;
+    background: var(--black);
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #222;
+    max-width: 120px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .product-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .product-card-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .product-card:hover .product-card-img {
+    transform: scale(1.02);
+  }
+
+  .tote-illustration {
+    width: 160px;
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+  }
+
+  .product-card:hover .tote-illustration { opacity: 1; }
+
+  .product-card-info {
+    padding: 20px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+
+  .product-meta {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 4px;
+  }
+
+  .product-price {
+    font-family: 'Courier Prime', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .coming-soon-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: 1px solid var(--mid);
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 6px 10px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .product-card-img.muted { background: #0d0d0d; }
+
+  .manifesto {
+    padding: 120px 40px;
+    background: var(--white);
+    color: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .manifesto-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 18vw, 240px);
+    line-height: 1;
+    color: var(--off-white);
+    letter-spacing: -4px;
+    user-select: none;
+  }
+
+  .manifesto-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 24px;
+    color: var(--black);
+  }
+
+  .manifesto-text p {
+    font-size: 12px;
+    line-height: 2;
+    color: #444;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  .process {
+    padding: 100px 40px;
+    background: var(--black);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 0;
+  }
+
+  .process-step {
+    padding: 40px 32px;
+    background: #0f0f0f;
+    border: 1px solid #1a1a1a;
+    transition: border-color 0.3s;
+  }
+
+  .process-step:hover { border-color: #333; }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: #1e1e1e;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 10px;
+    line-height: 1.9;
+    color: var(--mid);
+    letter-spacing: 0.5px;
+  }
+
+  .newsletter {
+    padding: 100px 40px;
+    background: var(--white);
+    color: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .newsletter h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--black);
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-row {
+    display: flex;
+    border-bottom: 1px solid var(--black);
+  }
+
+  .form-row input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 16px 0;
+    color: var(--black);
+  }
+
+  .form-row input::placeholder { color: #aaa; }
+
+  .form-submit {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .form-submit:hover { opacity: 0.7; }
+
+  .newsletter-note {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #888;
+    text-transform: uppercase;
+  }
+
+  footer {
+    background: var(--black);
+    padding: 60px 40px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 8px;
+    color: #1e1e1e;
+    line-height: 1;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: right;
+  }
+
+  .footer-links a {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--white); }
+
+  .footer-bottom {
+    padding: 20px 40px;
+    background: var(--black);
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #111;
+  }
+
+  .footer-copy {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #333;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { animation: fadeUp 0.8s ease forwards; }
+  .fade-in-2 { animation: fadeUp 0.8s 0.15s ease both; }
+  .fade-in-3 { animation: fadeUp 0.8s 0.3s ease both; }
+  .add-to-cart-btn {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .add-to-cart-btn:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  /* Cart Drawer CSS */
+  .cart-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .cart-overlay.active { opacity: 1; pointer-events: all; }
+  .cart-drawer {
+    position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100vh;
+    background: var(--black); z-index: 1000; border-left: 1px solid #333;
+    padding: 30px; display: flex; flex-direction: column; transition: right 0.3s ease;
+    color: var(--white);
+  }
+  .cart-drawer.active { right: 0; }
+  .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 20px; }
+  .cart-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; }
+  .close-cart { cursor: pointer; font-size: 20px; }
+  .cart-items { flex: 1; overflow-y: auto; }
+  .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+  .cart-item-info h4 { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; }
+  .cart-item-price { font-family: 'Courier Prime', monospace; color: var(--accent); font-size: 12px; }
+  .cart-item-qty { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+  .qty-btn { background: #222; color: #fff; border: none; width: 24px; height: 24px; cursor: pointer; }
+  .remove-item { color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: inline-block; }
+  .cart-footer { border-top: 1px solid #333; padding-top: 20px; }
+  .cart-total { display: flex; justify-content: space-between; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; margin-bottom: 15px; }
+  .checkout-btn { width: 100%; background: var(--white); color: var(--black); border: none; padding: 15px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; }
+  .checkout-btn:hover { background: var(--accent); }
+
+  /* Modal CSS */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1001;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal-content {
+    background: #111; padding: 40px; border: 1px solid #333; max-width: 500px; width: 90%; position: relative;
+  }
+  .close-modal { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 24px; color: #888; }
+  .modal-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; margin-bottom: 20px; color: var(--white); }
+  .form-group { margin-bottom: 15px; }
+  .form-group label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--mid); margin-bottom: 5px; }
+  .form-group input, .form-group textarea { width: 100%; background: #000; border: 1px solid #333; padding: 10px; color: #fff; font-family: 'Space Mono', monospace; font-size: 12px; }
+  .form-group input:focus, .form-group textarea:focus { outline: 1px solid var(--accent); }
+  .submit-order-btn { width: 100%; background: var(--accent); color: var(--black); border: none; padding: 12px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; margin-top: 10px; }
+  .whatsapp-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 15px; font-family: 'Space Mono', monospace; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; text-decoration: none; }
+  .whatsapp-btn:hover { background: #128C7E; }
+  .payment-info { background: #000; border: 1px solid #333; padding: 20px; margin-bottom: 20px; font-size: 12px; line-height: 1.6; color: var(--mid); }
+  .payment-info strong { color: var(--white); }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RAAKHSCRN</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="process.html">Process</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="#" id="cart-icon" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-bg-left"></div>
+    <div class="hero-bg-right"></div>
+  </div>
+  <div class="hero-big-text fade-in">
+    <span>RAAKH</span>
+    <span>SCRN</span>
+  </div>
+  <div class="hero-sub">
+    <p class="hero-tagline fade-in-2">Screen printed. Hand crafted.<br>Worn with intent.<br>— Islamabad, Pakistan</p>
+    <a href="#products" class="hero-cta fade-in-3">
+      Shop Now
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item bold">SCREEN PRINTED</span>
+    <span class="marquee-item">HAND CRAFTED</span>
+    <span class="marquee-item bold">TOTE BAGS</span>
+    <span class="marquee-item">LIMITED DROPS</span>
+    <span class="marquee-item bold">RAAKHSCRN</span>
+    <span class="marquee-item">EST. 2025</span>
+    <span class="marquee-item bold">SCREEN PRINTED</span>
+    <span class="marquee-item">HAND CRAFTED</span>
+    <span class="marquee-item bold">TOTE BAGS</span>
+    <span class="marquee-item">LIMITED DROPS</span>
+    <span class="marquee-item bold">RAAKHSCRN</span>
+    <span class="marquee-item">EST. 2025</span>
+    <span class="marquee-item bold">SCREEN PRINTED</span>
+    <span class="marquee-item">HAND CRAFTED</span>
+    <span class="marquee-item bold">TOTE BAGS</span>
+    <span class="marquee-item">LIMITED DROPS</span>
+    <span class="marquee-item bold">RAAKHSCRN</span>
+    <span class="marquee-item">EST. 2025</span>
+  </div>
+</div>
+
+<section class="products" id="products">
+  <div class="section-label">Current Drop</div>
+  <div class="products-grid" id="products-grid-container">
+    <!-- Products will be loaded here dynamically by script.js -->
+  </div>
+</section>
+
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-number">01</div>
+  <div class="manifesto-text">
+    <h2>Made with intention.</h2>
+    <p>RAAKHSCRN is a screen printing brand born from the belief that everyday objects should carry meaning. Every tote, every print — is a deliberate act.</p>
+    <p>We start small. We grow slow. No mass production. No compromises. Each drop is limited and made by hand.</p>
+    <p style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-top: 24px;">Tote Bags → T-Shirts → More</p>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="section-label">The Process</div>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Design</div>
+      <div class="step-desc">Every graphic starts as a hand-drawn concept. Raw lines, deliberate marks. Nothing digital until it has to be.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Screen Print</div>
+      <div class="step-desc">Ink pulled by hand through a screen onto canvas. Each piece gets its own pass — small variations are features, not flaws.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Drop</div>
+      <div class="step-desc">Limited quantities. No restocks. When a drop sells out, it's gone. Sign up to know when the next one hits.</div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div>
+    <h2>Get the drop<br>before it's gone.</h2>
+    <p style="font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-top: 20px;">New drops. No spam.</p>
+  </div>
+  <div class="newsletter-form">
+    <div class="form-row">
+      <input type="text" placeholder="Your name" />
+    </div>
+    <div class="form-row">
+      <input type="email" placeholder="Email address" />
+      <button class="form-submit">Notify Me</button>
+    </div>
+    <p class="newsletter-note">Limited drops. Subscribers first.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">RAAKHSCRN</div>
+  <div class="footer-links">
+    <a href="#products">Shop</a>
+    <a href="#manifesto">About</a>
+    <a href="#process">Process</a>
+    <a href="mailto:hello@raakhscrn.com">hello@raakhscrn.com</a>
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Raakhscrn. All rights reserved.</span>
+  <span class="footer-copy">Islamabad, Pakistan — Developed by <a href="https://aegisxtechnologies.site" target="_blank" style="color: inherit; text-decoration: underline;">AegisX Technologies</a></span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — RAAKHSCRN</title>
+  <meta name="description" content="Get in touch with RAAKHSCRN. We're based in Islamabad, Pakistan. Reach us via email or WhatsApp.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+      gap: 0;
+    }
+
+    .contact-left {
+      background: var(--black);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid #1a1a1a;
+    }
+
+    .contact-left h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 5vw, 72px);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 32px;
+    }
+
+    .contact-left p {
+      font-size: 11px;
+      line-height: 2.2;
+      color: var(--mid);
+      letter-spacing: 0.5px;
+      margin-bottom: 40px;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .contact-method {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 20px;
+    }
+
+    .contact-method .label {
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .contact-method a, .contact-method p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 16px;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      margin: 0;
+    }
+
+    .contact-method a:hover { color: var(--accent); }
+
+    .contact-right {
+      background: var(--white);
+      color: var(--black);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-right h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      letter-spacing: 2px;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: flex;
+      border-bottom: 1px solid var(--black);
+    }
+
+    .form-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      padding: 16px 0;
+      color: var(--black);
+    }
+
+    .form-row input::placeholder { color: #aaa; }
+
+    .form-submit {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 16px 24px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .form-submit:hover { opacity: 0.7; }
+
+    .newsletter-note {
+      font-size: 9px;
+      letter-spacing: 2px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .whatsapp-direct {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #25D366;
+      color: #fff;
+      text-decoration: none;
+      padding: 18px 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 32px;
+      transition: background 0.2s;
+    }
+
+    .whatsapp-direct:hover { background: #128C7E; }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RAAKHSCRN</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="process.html">Process</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="#" id="cart-icon" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">Reach Out</div>
+  <h1 class="page-hero-title fade-in">Contact</h1>
+</div>
+
+<div class="contact-grid">
+  <div class="contact-left">
+    <h2>Let's talk.</h2>
+    <p>Have a question about an order? Want to know when the next drop hits? We're based in Islamabad and respond fast — especially on WhatsApp.</p>
+
+    <div class="contact-methods">
+      <div class="contact-method">
+        <div class="label">Email</div>
+        <a href="mailto:hello@raakhscrn.com">hello@raakhscrn.com</a>
+      </div>
+      <div class="contact-method">
+        <div class="label">Instagram</div>
+        <a href="https://instagram.com/raakhscrn" target="_blank">@raakhscrn</a>
+      </div>
+      <div class="contact-method">
+        <div class="label">Location</div>
+        <p>Islamabad, Pakistan</p>
+      </div>
+    </div>
+
+    <a class="whatsapp-direct" href="https://wa.me/923000000000" target="_blank">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Message Us on WhatsApp
+    </a>
+  </div>
+
+  <div class="contact-right">
+    <h3>Get the drop before it's gone.</h3>
+    <p style="font-size: 10px; letter-spacing: 1px; color: #888; text-transform: uppercase; margin-bottom: 24px;">New drops. Subscribers first. No spam.</p>
+
+    <div class="newsletter-form">
+      <div class="form-row">
+        <input type="text" placeholder="Your name" id="nl-name" />
+      </div>
+      <div class="form-row">
+        <input type="email" placeholder="Email address" id="nl-email" />
+        <button class="form-submit" onclick="handleNewsletterSubmit()">Notify Me</button>
+      </div>
+      <p class="newsletter-note">Limited drops. Subscribers first.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">RAAKHSCRN</div>
+  <div class="footer-links">
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="process.html">Process</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Raakhscrn. All rights reserved.</span>
+  <span class="footer-copy">Islamabad, Pakistan — Developed by <a href="https://aegisxtechnologies.site" target="_blank" style="color: inherit; text-decoration: underline;">AegisX Technologies</a></span>
+</div>
+
+<script>
+  function handleNewsletterSubmit() {
+    const name = document.getElementById('nl-name').value;
+    const email = document.getElementById('nl-email').value;
+    if (name && email) {
+      alert(`Thanks ${name}! We'll notify you at ${email} when the next drop hits.`);
+      document.getElementById('nl-name').value = '';
+      document.getElementById('nl-email').value = '';
+    } else {
+      alert('Please enter your name and email.');
+    }
+  }
+</script>
+<script src="script.js"></script>
+</body>
+</html>

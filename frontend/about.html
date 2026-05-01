@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — RAAKHSCRN</title>
+  <meta name="description" content="RAAKHSCRN is a screen printing brand born in Islamabad, Pakistan. Made with intention, grown slowly.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+      gap: 0;
+    }
+
+    .about-left {
+      background: var(--white);
+      color: var(--black);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .about-left h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 5vw, 72px);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+
+    .about-left p {
+      font-size: 12px;
+      line-height: 2.2;
+      color: #444;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+    }
+
+    .about-left .tag {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 24px;
+    }
+
+    .about-right {
+      background: var(--black);
+      padding: 100px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 1px solid #1a1a1a;
+    }
+
+    .big-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(140px, 22vw, 280px);
+      line-height: 1;
+      color: #111;
+      letter-spacing: -6px;
+      user-select: none;
+      margin-bottom: 20px;
+    }
+
+    .values-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .values-list li {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      border-top: 1px solid #1a1a1a;
+      padding-top: 20px;
+    }
+
+    .values-list li .val-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px;
+      color: #222;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 40px;
+    }
+
+    .values-list li .val-content h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 2px;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .values-list li .val-content p {
+      font-size: 10px;
+      line-height: 1.9;
+      color: var(--mid);
+      letter-spacing: 0.5px;
+    }
+
+    .cta-strip {
+      background: var(--accent);
+      padding: 60px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cta-strip h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(32px, 4vw, 56px);
+      letter-spacing: 2px;
+      color: var(--black);
+    }
+
+    .cta-strip a {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 16px 28px;
+      font-family: 'Space Mono', monospace;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .cta-strip a:hover { background: #1a1a1a; }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RAAKHSCRN</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="process.html">Process</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="#" id="cart-icon" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">Who We Are</div>
+  <h1 class="page-hero-title fade-in">About Us</h1>
+</div>
+
+<div class="about-grid">
+  <div class="about-left">
+    <p class="tag">Islamabad, Pakistan — Est. 2025</p>
+    <h2>Made with intention.</h2>
+    <p>RAAKHSCRN is a screen printing brand born from the belief that everyday objects should carry meaning. Every tote, every print — is a deliberate act against the disposable culture of fast fashion.</p>
+    <p>We start small. We grow slow. No mass production. No compromises. Each drop is limited, made by hand, and designed to last far longer than a season.</p>
+    <p>The name RAAKH (راکھ) means "ash" in Urdu — a reminder that beauty can come from what's left behind, what endures, what carries marks of fire.</p>
+  </div>
+  <div class="about-right">
+    <div class="big-number">01</div>
+    <ul class="values-list">
+      <li>
+        <span class="val-num">—</span>
+        <div class="val-content">
+          <h3>Intentional Design</h3>
+          <p>Every graphic starts as a hand-drawn concept. Raw lines. Nothing digital until it has to be.</p>
+        </div>
+      </li>
+      <li>
+        <span class="val-num">—</span>
+        <div class="val-content">
+          <h3>Slow Production</h3>
+          <p>We don't rush drops. Each piece is made by hand, carefully, one at a time.</p>
+        </div>
+      </li>
+      <li>
+        <span class="val-num">—</span>
+        <div class="val-content">
+          <h3>Local Roots</h3>
+          <p>Born in Islamabad. Built for Pakistan and beyond. Proudly independent.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="cta-strip">
+  <h2>Ready to own a piece?</h2>
+  <a href="shop.html">
+    Browse the Drop
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<footer>
+  <div class="footer-logo">RAAKHSCRN</div>
+  <div class="footer-links">
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="process.html">Process</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Raakhscrn. All rights reserved.</span>
+  <span class="footer-copy">Islamabad, Pakistan — Developed by <a href="https://aegisxtechnologies.site" target="_blank" style="color: inherit; text-decoration: underline;">AegisX Technologies</a></span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

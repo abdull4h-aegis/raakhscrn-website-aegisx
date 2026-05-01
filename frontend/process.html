@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process — RAAKHSCRN</title>
+  <meta name="description" content="How RAAKHSCRN screen-prints each piece by hand. From concept to canvas — our full process.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .process-page {
+      padding: 100px 40px;
+      background: var(--black);
+    }
+
+    .steps-list {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 1fr;
+      gap: 0;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 0;
+      align-items: start;
+      transition: background 0.3s;
+    }
+
+    .step-row:hover { background: #0d0d0d; }
+
+    .step-row:last-child { border-bottom: 1px solid #1a1a1a; }
+
+    .step-num-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 80px;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+
+    .step-main h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      letter-spacing: 2px;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-main .step-tag {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .step-desc {
+      padding-left: 40px;
+      border-left: 1px solid #1a1a1a;
+    }
+
+    .step-desc p {
+      font-size: 12px;
+      line-height: 2.2;
+      color: var(--mid);
+      letter-spacing: 0.5px;
+    }
+
+    .step-desc .detail-list {
+      list-style: none;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-desc .detail-list li {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #444;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-desc .detail-list li::before {
+      content: '→';
+      color: var(--accent);
+    }
+
+    .process-cta {
+      background: var(--white);
+      color: var(--black);
+      padding: 80px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .process-cta h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 72px);
+      letter-spacing: 2px;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .process-cta p {
+      font-size: 12px;
+      line-height: 2;
+      color: #444;
+      margin-bottom: 28px;
+    }
+
+    .process-cta a {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 16px 28px;
+      font-family: 'Space Mono', monospace;
+      transition: all 0.3s;
+    }
+
+    .process-cta a:hover { background: #222; }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RAAKHSCRN</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="process.html" class="active">Process</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="#" id="cart-icon" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">From Idea to Ink</div>
+  <h1 class="page-hero-title fade-in">The Process</h1>
+</div>
+
+<section class="process-page">
+  <div class="section-label">Step by step</div>
+
+  <div class="steps-list">
+    <div class="step-row">
+      <div class="step-num-big">01</div>
+      <div class="step-main">
+        <p class="step-tag">Concept</p>
+        <h2>Design</h2>
+      </div>
+      <div class="step-desc">
+        <p>Every graphic starts as a hand-drawn concept. Raw lines, deliberate marks. Nothing digital until it absolutely has to be. We sketch on paper, iterate by hand, and let the design breathe before it ever touches a screen.</p>
+        <ul class="detail-list">
+          <li>Hand-drawn sketches</li>
+          <li>Concept iteration</li>
+          <li>Final digitization</li>
+          <li>Film positive output</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num-big">02</div>
+      <div class="step-main">
+        <p class="step-tag">Preparation</p>
+        <h2>Screen Burn</h2>
+      </div>
+      <div class="step-desc">
+        <p>The design is exposed onto a mesh screen using UV light and photosensitive emulsion. This locks the design in place — what's exposed hardens, what isn't washes away with water, leaving a perfect stencil in the mesh.</p>
+        <ul class="detail-list">
+          <li>Emulsion coating</li>
+          <li>UV exposure</li>
+          <li>Screen washing</li>
+          <li>Final screen check</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num-big">03</div>
+      <div class="step-main">
+        <p class="step-tag">Production</p>
+        <h2>Screen Print</h2>
+      </div>
+      <div class="step-desc">
+        <p>Ink pulled by hand through a screen onto canvas. Each piece gets its own pass — small variations in pressure and angle mean every print is technically unique. We see those variations as features, not flaws. It's the handmade mark.</p>
+        <ul class="detail-list">
+          <li>Ink mixing</li>
+          <li>Manual squeegee pull</li>
+          <li>Heat curing</li>
+          <li>Quality inspection</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num-big">04</div>
+      <div class="step-main">
+        <p class="step-tag">Release</p>
+        <h2>The Drop</h2>
+      </div>
+      <div class="step-desc">
+        <p>Limited quantities. No restocks. When a drop sells out, it's gone. We don't chase scale. We build a community of people who care about what they carry. Sign up to know when the next one hits.</p>
+        <ul class="detail-list">
+          <li>Limited run only</li>
+          <li>Subscriber first access</li>
+          <li>No restocks</li>
+          <li>Direct WhatsApp order confirmation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="process-cta">
+  <h2>See what we've made.</h2>
+  <div>
+    <p>Every drop is the result of this process, done by hand, in Islamabad. No shortcuts.</p>
+    <a href="shop.html">
+      Browse The Shop
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">RAAKHSCRN</div>
+  <div class="footer-links">
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="process.html">Process</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Raakhscrn. All rights reserved.</span>
+  <span class="footer-copy">Islamabad, Pakistan — Developed by <a href="https://aegisxtechnologies.site" target="_blank" style="color: inherit; text-decoration: underline;">AegisX Technologies</a></span>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
