@@ -138,6 +138,15 @@
     }
 
     .cta-strip a:hover { background: #1a1a1a; }
+
+    /* RESPONSIVE OVERRIDES */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-left { padding: 60px 20px; }
+      .about-right { padding: 40px 20px; border-left: none; border-top: 1px solid #1a1a1a; }
+      .big-number { font-size: 120px; }
+      .cta-strip { flex-direction: column; gap: 30px; text-align: center; padding: 60px 20px; }
+    }
   </style>
 </head>
 <body>
@@ -145,7 +154,12 @@
 
 <nav>
   <a href="index.html" class="nav-logo">RAAKHSCRN</a>
-  <ul class="nav-links">
+  <div class="nav-toggle" id="mobile-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="nav-links" id="nav-menu">
     <li><a href="shop.html">Shop</a></li>
     <li><a href="about.html" class="active">About</a></li>
     <li><a href="process.html">Process</a></li>

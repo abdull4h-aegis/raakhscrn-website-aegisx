@@ -152,6 +152,15 @@
     }
 
     .whatsapp-direct:hover { background: #128C7E; }
+
+    /* RESPONSIVE OVERRIDES */
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-left { padding: 60px 20px; border-right: none; border-bottom: 1px solid #1a1a1a; }
+      .contact-right { padding: 60px 20px; }
+      .contact-left h2 { font-size: 36px; }
+      .contact-right h3 { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -159,7 +168,12 @@
 
 <nav>
   <a href="index.html" class="nav-logo">RAAKHSCRN</a>
-  <ul class="nav-links">
+  <div class="nav-toggle" id="mobile-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="nav-links" id="nav-menu">
     <li><a href="shop.html">Shop</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="process.html">Process</a></li>

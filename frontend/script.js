@@ -84,6 +84,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- DOM Elements ---
   const cartIcon = document.getElementById('cart-icon');
+  const navMenu = document.getElementById('nav-menu');
+  const mobileMenuBtn = document.getElementById('mobile-menu');
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenuBtn.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  }
+
+  // Close menu when clicking a link
+  const navLinks = document.querySelectorAll('.nav-links a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (mobileMenuBtn) {
+        mobileMenuBtn.classList.remove('active');
+        navMenu.classList.remove('active');
+      }
+    });
+  });
   const cartDrawer = document.getElementById('cart-drawer');
   const cartOverlay = document.getElementById('cart-overlay');
   const closeCartBtn = document.getElementById('close-cart');
