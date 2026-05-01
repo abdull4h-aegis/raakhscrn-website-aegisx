@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Cart State ---
   let cart = JSON.parse(localStorage.getItem('raakh_cart')) || [];
   const WHATSAPP_NUMBER = '923000000000'; // REPLACE WITH ACTUAL NUMBER
-  const API_URL = 'http://localhost:3000'; // Change this when deploying to production (e.g., 'https://my-backend.herokuapp.com')
+  const API_URL = 'https://raakhscrn-shop.up.railway.app'; // Production URL on Railway
 
   // --- Inject HTML Structures ---
   const body = document.body;
