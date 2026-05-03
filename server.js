@@ -17,8 +17,9 @@ const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
-// Serve uploaded images
+// Serve uploaded images and frontend static files
 app.use('/uploads', express.static(uploadsDir));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Multer Setup for Image Uploads
 const storage = multer.memoryStorage(); // Use memory storage for processing
@@ -143,9 +144,9 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-// Root API Route
+// Root API Route - Serve the frontend index page
 app.get('/', (req, res) => {
-  res.json({ message: 'RAAKHSCRN API is running.' });
+  res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 // Get public settings
