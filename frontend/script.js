@@ -295,28 +295,29 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       if (data.success && data.products.length > 0) {
-        productsGridContainer.innerHTML = data.products.map(p => `
-          <a href="product.html?id=${p._id}" class="product-card" style="text-decoration: none; display: block;">
-            <div class="product-card-img ${p.isComingSoon ? 'muted' : ''}">
-              <img src="${API_URL}${p.images ? p.images[0] : p.image}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" />
-              ${p.isComingSoon ? '<div class="coming-soon-badge">Coming Soon</div>' : ''}
-            </div>
-            <div class="product-card-info">
-              <div>
-                <div class="product-name">${p.name}</div>
-                <div class="product-meta">${p.description}</div>
+        productsGridContainer.innerHTML = data.products.map(p => {
+          const hasDiscount = p.discount > 0;
+          const finalPrice = hasDiscount ? (p.price * (1 - p.discount/100)) : p.price;
+          
+          return `
+            <a href="product.html?id=${p._id}" class="product-card" style="text-decoration: none; display: block;">
+              <div class="product-card-img ${p.isComingSoon ? 'muted' : ''}">
+                <img src="${API_URL}${p.images ? p.images[0] : p.image}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" />
+                ${p.isComingSoon ? '<div class="coming-soon-badge">Coming Soon</div>' : ''}
+                ${hasDiscount && !p.isComingSoon ? `<div class="sale-badge">SALE -${p.discount}%</div>` : ''}
               </div>
-              <div style="text-align: right;">
+              <div class="product-card-info">
+                <div class="product-name">${p.name}</div>
+                ${hasDiscount && !p.isComingSoon ? `<div class="product-discount-info">Limited Time Offer</div>` : ''}
                 <div class="product-price" ${p.isComingSoon ? 'style="color: #555"' : ''}>
-                  ${p.isComingSoon ? '— —' : (p.discount > 0 
-                    ? `<span style="text-decoration:line-through; font-size:10px; color:#666; display:block;">PKR ${p.price.toLocaleString()}</span>PKR ${(p.price * (1 - p.discount/100)).toLocaleString()}` 
+                  ${p.isComingSoon ? '— —' : (hasDiscount 
+                    ? `<span class="new-price">PKR ${finalPrice.toLocaleString()}</span><span class="old-price">PKR ${p.price.toLocaleString()}</span>` 
                     : 'PKR ' + p.price.toLocaleString())}
                 </div>
-                ${!p.isComingSoon ? `<div style="font-size:9px; letter-spacing:2px; text-transform:uppercase; color: var(--accent); margin-top:6px;">View →</div>` : ''}
               </div>
-            </div>
-          </a>
-        `).join('');
+            </a>
+          `;
+        }).join('');
 
         // Cards now link to product.html — no inline add-to-cart needed here
       } else {
@@ -390,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('raakh_promo_dismissed')) return;
 
     try {
-      const res = await fetch('/api/settings');
+      const res = await fetch(`${API_URL}/api/settings`);
       const data = await res.json();
       
       if (data.success && data.settings && data.settings.promoPopupEnabled) {

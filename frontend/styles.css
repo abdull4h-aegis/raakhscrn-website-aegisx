@@ -237,32 +237,77 @@ section { position: relative; z-index: 1; }
 .product-card-img.muted { background: #0d0d0d; }
 
 .product-card-info {
-  padding: 20px 0 32px;
+  padding: 16px 0 32px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .product-name {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 3px;
+  font-size: 20px;
+  line-height: 1.1;
+  letter-spacing: 2px;
   color: var(--white);
+  text-transform: uppercase;
 }
 
-.product-meta {
-  font-size: 9px;
-  letter-spacing: 3px;
+.product-discount-info {
+  font-size: 8px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--mid);
-  margin-top: 4px;
+  color: var(--accent);
+  font-weight: bold;
 }
 
 .product-price {
-  font-family: 'Courier Prime', monospace;
-  font-size: 14px;
-  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--white);
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: var(--mid);
+  font-size: 10px;
+}
+
+.new-price {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.view-link {
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 10px;
+  transition: color 0.2s;
+}
+
+.product-card:hover .view-link {
+  color: var(--accent);
+}
+
+.sale-badge {
+  position: absolute;
+  top: 15px; left: 15px;
+  background: var(--accent);
+  color: var(--black);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  font-family: 'Space Mono', monospace;
+  z-index: 2;
 }
 
 .coming-soon-badge {
