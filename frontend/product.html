@@ -473,7 +473,11 @@
 
       <h1 class="product-page-name">${p.name}</h1>
       <div class="product-page-meta">${p.description}</div>
-      <div class="product-page-price">PKR ${p.price.toLocaleString()}</div>
+      <div class="product-page-price">
+        ${p.discount > 0 
+          ? `<span style="text-decoration:line-through; font-size:16px; color:#666; margin-right:12px;">PKR ${p.price.toLocaleString()}</span>PKR ${(p.price * (1 - p.discount/100)).toLocaleString()}` 
+          : `PKR ${p.price.toLocaleString()}`}
+      </div>
 
       <div class="product-page-desc">${p.description}</div>
 
@@ -550,6 +554,7 @@
           id: currentProduct._id + (selectedSize || '') + (selectedColor || ''),
           name: itemName,
           price: currentProduct.price,
+          discountPrice: currentProduct.discount > 0 ? (currentProduct.price * (1 - currentProduct.discount/100)) : null,
           quantity: quantity
         });
       }

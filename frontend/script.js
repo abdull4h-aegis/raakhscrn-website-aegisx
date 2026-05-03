@@ -90,6 +90,44 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
   `;
   body.insertAdjacentHTML('beforeend', floatingWhatsAppHTML);
+  
+  // Promo Popup
+  const promoPopupHTML = `
+    <div class="promo-overlay" id="promo-popup">
+      <div class="promo-content">
+        <span class="close-promo" id="close-promo">&times;</span>
+        <div class="promo-icon">✨</div>
+        <h2 id="promo-title">SPECIAL OFFER</h2>
+        <p id="promo-text"></p>
+        <button class="promo-btn" id="promo-shop-btn">Shop Now</button>
+      </div>
+    </div>
+    <style>
+      .promo-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000;
+        display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.4s;
+        backdrop-filter: blur(5px);
+      }
+      .promo-overlay.active { display: flex; opacity: 1; }
+      .promo-content {
+        background: #0a0a0a; border: 1px solid var(--accent); padding: 50px 40px; width: 90%; max-width: 450px;
+        text-align: center; position: relative; transform: translateY(20px); transition: transform 0.4s;
+      }
+      .promo-overlay.active .promo-content { transform: translateY(0); }
+      .close-promo { position: absolute; top: 15px; right: 20px; color: #555; cursor: pointer; font-size: 24px; transition: color 0.2s; }
+      .close-promo:hover { color: var(--white); }
+      .promo-icon { font-size: 40px; margin-bottom: 20px; }
+      .promo-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 4px; color: var(--accent); margin-bottom: 15px; }
+      .promo-content p { font-family: 'Space Mono', monospace; font-size: 14px; line-height: 1.6; color: var(--white); margin-bottom: 30px; letter-spacing: 1px; }
+      .promo-btn {
+        background: var(--white); color: var(--black); border: none; padding: 16px 32px;
+        font-family: 'Space Mono', monospace; font-size: 12px; font-weight: bold; text-transform: uppercase;
+        letter-spacing: 3px; cursor: pointer; transition: all 0.3s;
+      }
+      .promo-btn:hover { background: var(--accent); transform: scale(1.05); }
+    </style>
+  `;
+  body.insertAdjacentHTML('beforeend', promoPopupHTML);
 
   // --- DOM Elements ---
   const cartIcons = document.querySelectorAll('.cart-icon-trigger');
@@ -136,7 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Functions ---
   const saveCart = () => localStorage.setItem('raakh_cart', JSON.stringify(cart));
 
-  const getCartTotal = () => cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const getCartTotal = () => cart.reduce((sum, item) => {
+    const price = item.discountPrice || item.price;
+    return sum + (price * item.quantity);
+  }, 0);
 
   const updateCartUI = () => {
     cartItemsContainer.innerHTML = '';
@@ -153,7 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="cart-item">
             <div class="cart-item-info">
               <h4>${item.name}</h4>
-              <div class="cart-item-price">PKR ${item.price}</div>
+              <div class="cart-item-price">
+                ${item.discountPrice ? `<span style="text-decoration:line-through; color:#666; font-size:10px; margin-right:5px;">PKR ${item.price}</span>` : ''}
+                PKR ${item.discountPrice || item.price}
+              </div>
               <span class="remove-item" data-index="${index}">Remove</span>
             </div>
             <div class="cart-item-qty">
@@ -264,7 +308,9 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <div style="text-align: right;">
                 <div class="product-price" ${p.isComingSoon ? 'style="color: #555"' : ''}>
-                  ${p.isComingSoon ? '— —' : 'PKR ' + p.price.toLocaleString()}
+                  ${p.isComingSoon ? '— —' : (p.discount > 0 
+                    ? `<span style="text-decoration:line-through; font-size:10px; color:#666; display:block;">PKR ${p.price.toLocaleString()}</span>PKR ${(p.price * (1 - p.discount/100)).toLocaleString()}` 
+                    : 'PKR ' + p.price.toLocaleString())}
                 </div>
                 ${!p.isComingSoon ? `<div style="font-size:9px; letter-spacing:2px; text-transform:uppercase; color: var(--accent); margin-top:6px;">View →</div>` : ''}
               </div>
@@ -338,7 +384,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- Promo Popup Logic ---
+  const checkPromo = async () => {
+    // Only show if not dismissed in this session
+    if (sessionStorage.getItem('raakh_promo_dismissed')) return;
+
+    try {
+      const res = await fetch('/api/settings');
+      const data = await res.json();
+      
+      if (data.success && data.settings && data.settings.promoPopupEnabled) {
+        document.getElementById('promo-text').textContent = data.settings.promoMessage;
+        const overlay = document.getElementById('promo-popup');
+        
+        // Show after a slight delay
+        setTimeout(() => {
+          overlay.classList.add('active');
+        }, 1500);
+
+        document.getElementById('close-promo').addEventListener('click', () => {
+          overlay.classList.remove('active');
+          sessionStorage.setItem('raakh_promo_dismissed', 'true');
+        });
+
+        document.getElementById('promo-shop-btn').addEventListener('click', () => {
+          overlay.classList.remove('active');
+          sessionStorage.setItem('raakh_promo_dismissed', 'true');
+          window.location.href = 'shop.html';
+        });
+        
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove('active');
+            sessionStorage.setItem('raakh_promo_dismissed', 'true');
+          }
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching settings:', err);
+    }
+  };
+
   // Initial render
   updateCartUI();
   loadFrontendProducts();
+  checkPromo();
 });

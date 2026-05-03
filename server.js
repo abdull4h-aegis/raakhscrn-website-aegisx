@@ -53,7 +53,10 @@ if (!MONGODB_URI) {
 mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 5000 // Timeout after 5s instead of 30s
 })
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB');
+    initSettings();
+  })
   .catch(err => {
     console.error('Failed to connect to MongoDB:', err);
     process.exit(1); // Exit if cannot connect to DB in production
@@ -85,10 +88,27 @@ const productSchema = new mongoose.Schema({
   images: { type: [String], required: true }, // Array of image URL paths
   sizes: { type: [String], default: [] },
   colors: { type: [String], default: [] },
+  discount: { type: Number, default: 0 }, // Percentage discount
   isComingSoon: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });
 const Product = mongoose.model('Product', productSchema);
+
+const settingsSchema = new mongoose.Schema({
+  promoPopupEnabled: { type: Boolean, default: false },
+  promoMessage: { type: String, default: 'Flash Sale! Get 20% off on all products.' },
+  promoDiscount: { type: Number, default: 0 } // Information only for the popup
+});
+const Settings = mongoose.model('Settings', settingsSchema);
+
+// Initialize default settings if not exists
+const initSettings = async () => {
+  const count = await Settings.countDocuments();
+  if (count === 0) {
+    await Settings.create({});
+  }
+};
+initSettings(); // Also call initially just in case
 
 // Generate short Order ID
 const generateOrderID = async () => {
@@ -126,6 +146,19 @@ app.post('/api/orders', async (req, res) => {
 // Root API Route
 app.get('/', (req, res) => {
   res.json({ message: 'RAAKHSCRN API is running.' });
+});
+
+// Get public settings
+app.get('/api/settings', async (req, res) => {
+  try {
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = await Settings.create({});
+    }
+    res.json({ success: true, settings });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
 });
 
 // --- ADMIN APIs & MIDDLEWARE ---
@@ -169,10 +202,21 @@ app.put('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
   }
 });
 
+// API: Delete an order
+app.delete('/api/admin/orders/:id', adminAuth, async (req, res) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // API: Create a product
 app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (req, res) => {
   try {
-    const { name, description, price, isComingSoon, sizes, colors } = req.body;
+    const { name, description, price, discount, isComingSoon, sizes, colors } = req.body;
     if (!req.files || req.files.length === 0) return res.status(400).json({ success: false, message: 'At least one image is required' });
 
     const imagePromises = req.files.map(f => processImage(f));
@@ -185,6 +229,7 @@ app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (re
       name,
       description,
       price: Number(price),
+      discount: Number(discount) || 0,
       isComingSoon: isComingSoon === 'true',
       images: imageUrls,
       sizes: sizesArr,
@@ -202,13 +247,14 @@ app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (re
 // API: Update a product
 app.put('/api/admin/products/:id', adminAuth, upload.array('newImages', 10), async (req, res) => {
   try {
-    const { name, description, price, isComingSoon, sizes, colors } = req.body;
+    const { name, description, price, discount, isComingSoon, sizes, colors } = req.body;
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ success: false, message: 'Product not found' });
 
     if (name) product.name = name;
     if (description) product.description = description;
     if (price) product.price = Number(price);
+    if (discount !== undefined) product.discount = Number(discount);
     if (isComingSoon !== undefined) product.isComingSoon = isComingSoon === 'true';
     if (sizes !== undefined) product.sizes = sizes.split(',').map(s => s.trim()).filter(Boolean);
     if (colors !== undefined) product.colors = colors.split(',').map(c => c.trim()).filter(Boolean);
@@ -237,6 +283,19 @@ app.delete('/api/admin/products/:id', adminAuth, async (req, res) => {
       });
     }
     res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// API: Update settings
+app.put('/api/admin/settings', adminAuth, async (req, res) => {
+  try {
+    const { promoPopupEnabled, promoMessage, promoDiscount } = req.body;
+    const settings = await Settings.findOneAndUpdate({}, {
+      promoPopupEnabled, promoMessage, promoDiscount
+    }, { new: true, upsert: true });
+    res.json({ success: true, settings });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
