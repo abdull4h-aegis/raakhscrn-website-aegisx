@@ -47,6 +47,32 @@
     mix-blend-mode: difference;
   }
 
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cart-mobile {
+    display: none;
+  }
+
+  .cart-icon-trigger {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .cart-icon-trigger:hover {
+    opacity: 0.8;
+  }
+
   .nav-logo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 22px;
@@ -581,6 +607,21 @@
     nav { padding: 15px 20px; mix-blend-mode: normal; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #1a1a1a; }
     .nav-logo { font-size: 18px; letter-spacing: 4px; }
     
+    .nav-right {
+      gap: 15px;
+    }
+
+    .cart-mobile {
+      display: flex;
+      font-size: 9px;
+      letter-spacing: 1px;
+      z-index: 101;
+    }
+
+    .cart-desktop {
+      display: none;
+    }
+    
     .nav-links {
       position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
       background: var(--black); flex-direction: column; justify-content: center;
@@ -627,17 +668,20 @@
 
 <nav>
   <a href="index.html" class="nav-logo">RAAKHSCRN</a>
-  <div class="nav-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
+  <div class="nav-right">
+    <a href="#" class="cart-icon-trigger cart-mobile">Cart (0)</a>
+    <div class="nav-toggle" id="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
   </div>
   <ul class="nav-links" id="nav-menu">
     <li><a href="shop.html">Shop</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="process.html">Process</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="#" id="cart-icon" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
+    <li class="cart-desktop"><a href="#" class="cart-icon-trigger" style="color: var(--accent); font-weight: bold;">Cart (0)</a></li>
   </ul>
 </nav>
 

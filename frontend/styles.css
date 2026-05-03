@@ -45,6 +45,32 @@ nav {
   transition: all 0.3s ease;
 }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.cart-mobile {
+  display: none;
+}
+
+.cart-icon-trigger {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.cart-icon-trigger:hover {
+  opacity: 0.8;
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -376,6 +402,21 @@ footer {
 
 @media (max-width: 768px) {
   nav { padding: 15px 20px; }
+
+  .nav-right {
+    gap: 20px;
+  }
+
+  .cart-mobile {
+    display: flex;
+    font-size: 9px;
+    letter-spacing: 1px;
+    z-index: 101;
+  }
+
+  .cart-desktop {
+    display: none;
+  }
   
   .nav-toggle { display: flex; }
   

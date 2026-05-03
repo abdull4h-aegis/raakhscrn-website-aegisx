@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   body.insertAdjacentHTML('beforeend', floatingWhatsAppHTML);
 
   // --- DOM Elements ---
-  const cartIcon = document.getElementById('cart-icon');
+  const cartIcons = document.querySelectorAll('.cart-icon-trigger');
   const navMenu = document.getElementById('nav-menu');
   const mobileMenuBtn = document.getElementById('mobile-menu');
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    cartIcon.textContent = `Cart (${totalQty})`;
+    cartIcons.forEach(icon => icon.textContent = `Cart (${totalQty})`);
     cartTotalPriceEl.textContent = `PKR ${getCartTotal().toLocaleString()}`;
 
     // Re-bind qty buttons
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Event Listeners ---
-  cartIcon.addEventListener('click', openCart);
+  cartIcons.forEach(icon => icon.addEventListener('click', openCart));
   closeCartBtn.addEventListener('click', closeCart);
   cartOverlay.addEventListener('click', closeCart);
 
