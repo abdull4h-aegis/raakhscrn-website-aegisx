@@ -65,6 +65,15 @@ nav {
   font-weight: bold;
   transition: opacity 0.2s;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-icon-trigger svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.5px;
 }
 
 .cart-icon-trigger:hover {

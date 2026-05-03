@@ -166,7 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    cartIcons.forEach(icon => icon.textContent = `Cart (${totalQty})`);
+    cartIcons.forEach(icon => {
+      const countEl = icon.querySelector('.cart-count');
+      if (countEl) countEl.textContent = totalQty;
+    });
     cartTotalPriceEl.textContent = `PKR ${getCartTotal().toLocaleString()}`;
 
     // Re-bind qty buttons
