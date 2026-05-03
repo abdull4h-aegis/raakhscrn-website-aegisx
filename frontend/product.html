@@ -556,14 +556,8 @@
         btn.classList.remove('added-flash');
       }, 1500);
 
-      // Update cart icon count (managed by script.js via storage event or inline)
-      updateCartIconCount(cart);
-    }
-
-    function updateCartIconCount(cart) {
-      const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const cartIcon = document.getElementById('cart-icon');
-      if (cartIcon) cartIcon.textContent = `Cart (${totalQty})`;
+      // Notify script.js that the cart has changed
+      window.dispatchEvent(new Event('cartUpdated'));
     }
 
     // Init

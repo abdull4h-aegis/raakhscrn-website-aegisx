@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   // --- Cart State ---
   let cart = JSON.parse(localStorage.getItem('raakh_cart')) || [];
-  const WHATSAPP_NUMBER = '923000000000'; // REPLACE WITH ACTUAL NUMBER
+  const WHATSAPP_NUMBER = '923368837784'; // Updated number
   const API_URL = 'https://raakhscrn-shop.up.railway.app'; // Production URL on Railway
 
   // --- Inject HTML Structures ---
@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="form-group">
             <label>Delivery Address</label>
             <textarea id="address" rows="3" required></textarea>
+            <p style="font-size: 8px; color: #666; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase;">Max 50 words</p>
           </div>
           <div class="form-group">
             <label>City</label>
@@ -70,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>Total Amount: <strong id="success-total"></strong></p>
           <br>
           <p>Please send the payment via EasyPaisa or JazzCash to the following number:</p>
-          <p style="font-size: 16px; margin: 10px 0;"><strong>0300-XXXXXXX</strong> (Name: RAAKHSCRN)</p>
-          <p>Once paid, click the button below to confirm your payment with us on WhatsApp.</p>
+          <p style="font-size: 16px; margin: 10px 0;"><strong>0336-8837784</strong> (Name: Muhammad Zakria)</p>
+          <p>Please send <strong>Rs 300 in advance</strong> for order confirmation and share the screenshot (SS) on WhatsApp.</p>
         </div>
         <a href="#" class="whatsapp-btn" id="whatsapp-confirm-btn" target="_blank">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -81,6 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   `;
   body.insertAdjacentHTML('beforeend', paymentModalHTML);
+
+  // Floating WhatsApp Button
+  const floatingWhatsAppHTML = `
+    <a href="https://wa.me/923368837784" class="floating-whatsapp" target="_blank" aria-label="Chat with us on WhatsApp">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  `;
+  body.insertAdjacentHTML('beforeend', floatingWhatsAppHTML);
 
   // --- DOM Elements ---
   const cartIcon = document.getElementById('cart-icon');
@@ -201,12 +210,26 @@ document.addEventListener('DOMContentLoaded', () => {
     successTotal.textContent = `PKR ${total.toLocaleString()}`;
 
     // Setup WhatsApp Link
-    const message = encodeURIComponent(`Hello! I just placed an order on RAAKHSCRN.\nOrder ID: ${orderId}\nTotal Amount: PKR ${total}\nI would like to confirm my payment.`);
+    const message = encodeURIComponent(`Hello! I just placed an order on RAAKHSCRN.\nOrder ID: ${orderId}\nTotal Amount: PKR ${total}\nI have sent the Rs 300 advance. Here is the screenshot.`);
     whatsappConfirmBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
 
     paymentModal.classList.add('active');
   };
   const closePaymentModal = () => paymentModal.classList.remove('active');
+
+  // Listen for cart updates from other parts of the app (like product.html)
+  window.addEventListener('cartUpdated', () => {
+    cart = JSON.parse(localStorage.getItem('raakh_cart')) || [];
+    updateCartUI();
+  });
+
+  // Listen for storage changes (cross-tab)
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'raakh_cart') {
+      cart = JSON.parse(e.newValue) || [];
+      updateCartUI();
+    }
+  });
 
   // --- Event Listeners ---
   cartIcon.addEventListener('click', openCart);
@@ -263,6 +286,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const whatsappNumber = document.getElementById('whatsapp-number').value;
     const address = document.getElementById('address').value;
     const city = document.getElementById('city').value;
+
+    const wordCount = address.trim().split(/\s+/).filter(word => word.length > 0).length;
+    if (wordCount > 50) {
+      alert('Address must be no more than 50 words.');
+      return;
+    }
 
     const orderData = {
       customerName,
