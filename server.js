@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
+const sharp = require('sharp');
 
 const app = express();
 app.use(cors());
@@ -20,11 +21,27 @@ if (!fs.existsSync(uploadsDir)) {
 app.use('/uploads', express.static(uploadsDir));
 
 // Multer Setup for Image Uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'))
+const storage = multer.memoryStorage(); // Use memory storage for processing
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
 });
-const upload = multer({ storage });
+
+// Image Processing Helper
+const processImage = async (file) => {
+  const filename = `raakh-${Date.now()}-${Math.round(Math.random() * 1E9)}.webp`;
+  const outputPath = path.join(uploadsDir, filename);
+
+  await sharp(file.buffer)
+    .resize(1200, 1600, {
+      fit: 'contain',
+      background: { r: 10, g: 10, b: 10, alpha: 1 } // Matches --black theme
+    })
+    .webp({ quality: 85 })
+    .toFile(outputPath);
+
+  return `/uploads/${filename}`;
+};
 
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI;
@@ -158,7 +175,8 @@ app.post('/api/admin/products', adminAuth, upload.array('images', 10), async (re
     const { name, description, price, isComingSoon, sizes, colors } = req.body;
     if (!req.files || req.files.length === 0) return res.status(400).json({ success: false, message: 'At least one image is required' });
 
-    const imageUrls = req.files.map(f => `/uploads/${f.filename}`);
+    const imagePromises = req.files.map(f => processImage(f));
+    const imageUrls = await Promise.all(imagePromises);
 
     const sizesArr = sizes ? sizes.split(',').map(s => s.trim()).filter(Boolean) : [];
     const colorsArr = colors ? colors.split(',').map(c => c.trim()).filter(Boolean) : [];
@@ -195,9 +213,10 @@ app.put('/api/admin/products/:id', adminAuth, upload.array('newImages', 10), asy
     if (sizes !== undefined) product.sizes = sizes.split(',').map(s => s.trim()).filter(Boolean);
     if (colors !== undefined) product.colors = colors.split(',').map(c => c.trim()).filter(Boolean);
 
-    // If new images uploaded, replace all
+    // If new images uploaded, process and replace
     if (req.files && req.files.length > 0) {
-      product.images = req.files.map(f => `/uploads/${f.filename}`);
+      const imagePromises = req.files.map(f => processImage(f));
+      product.images = await Promise.all(imagePromises);
     }
 
     await product.save();
